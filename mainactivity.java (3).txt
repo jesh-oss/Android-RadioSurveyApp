@@ -1,0 +1,194 @@
+package com.example.radio_button;
+
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.radio_button.databinding.ActivityMainBinding;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
+public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
+    private int currentStep = 0;
+    private final int TOTAL_STEPS = 11; // 1 (Name) + 10 (Survey)
+    private List<View> cards = new ArrayList<>();
+    private static final String PREFS_NAME = "SurveyPrefs";
+    private static final String HISTORY_KEY = "SurveyHistory";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+
+        initCards();
+        updateUI();
+
+        binding.btnNext.setOnClickListener(v -> {
+            if (currentStep < TOTAL_STEPS) {
+                if (validateCurrentStep()) {
+                    currentStep++;
+                    updateUI();
+                }
+            } else if (currentStep == TOTAL_STEPS) {
+                resetForm();
+            }
+        });
+
+        binding.btnPrevious.setOnClickListener(v -> {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        binding.btnClearHistory.setOnClickListener(v -> clearHistory());
+    }
+
+    private void initCards() {
+        cards.add(binding.cardName);
+        cards.add(binding.cardCity);
+        cards.add(binding.cardCourse);
+        cards.add(binding.cardBranch);
+        cards.add(binding.cardYear);
+        cards.add(binding.cardSemester);
+        cards.add(binding.cardSection);
+        cards.add(binding.cardSpecialization);
+        cards.add(binding.cardCollegeType);
+        cards.add(binding.cardStudyMode);
+        cards.add(binding.cardHostel);
+        cards.add(binding.cardHistory);
+    }
+
+    private void updateUI() {
+        for (View card : cards) {
+            card.setVisibility(View.GONE);
+        }
+
+        cards.get(currentStep).setVisibility(View.VISIBLE);
+
+        if (currentStep < TOTAL_STEPS) {
+            binding.tvProgress.setText((currentStep + 1) + " / " + TOTAL_STEPS);
+            binding.btnNext.setText(currentStep == TOTAL_STEPS - 1 ? getString(R.string.submit_form) : getString(R.string.next));
+            binding.btnPrevious.setVisibility(currentStep == 0 ? View.INVISIBLE : View.VISIBLE);
+        } else {
+            binding.tvProgress.setText("History");
+            binding.btnNext.setText("New Form");
+            binding.btnPrevious.setVisibility(View.VISIBLE);
+            loadHistory();
+        }
+
+        binding.scrollView.smoothScrollTo(0, 0);
+    }
+
+    private boolean validateCurrentStep() {
+        if (currentStep >= TOTAL_STEPS) return true;
+
+        if (currentStep == 0) {
+            String name = binding.etName.getText().toString().trim();
+            if (name.isEmpty()) {
+                Toast.makeText(this, getString(R.string.name_validation_error), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            return true;
+        }
+
+        RadioGroup currentRg = findRadioGroupInView(cards.get(currentStep));
+        if (currentRg != null && currentRg.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, getString(R.string.validation_error), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (currentStep == TOTAL_STEPS - 1) {
+            saveSubmission();
+        }
+        return true;
+    }
+
+    private RadioGroup findRadioGroupInView(View view) {
+        if (view instanceof RadioGroup) return (RadioGroup) view;
+        if (view instanceof android.view.ViewGroup) {
+            android.view.ViewGroup group = (android.view.ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                RadioGroup res = findRadioGroupInView(group.getChildAt(i));
+                if (res != null) return res;
+            }
+        }
+        return null;
+    }
+
+    private void saveSubmission() {
+        StringBuilder sb = new StringBuilder();
+        String timestamp = new SimpleDateFormat("dd-MM-yyyy HH:mm", Locale.getDefault()).format(new Date());
+        String name = binding.etName.getText().toString().trim();
+
+        sb.append("--- Submission by ").append(name).append(" at ").append(timestamp).append(" ---\n");
+        sb.append(getString(R.string.select_city)).append(": ").append(getSelectedText(binding.rgCity)).append("\n");
+        sb.append(getString(R.string.select_course)).append(": ").append(getSelectedText(binding.rgCourse)).append("\n");
+        sb.append(getString(R.string.select_branch)).append(": ").append(getSelectedText(binding.rgBranch)).append("\n");
+        sb.append(getString(R.string.select_year)).append(": ").append(getSelectedText(binding.rgYear)).append("\n");
+        sb.append(getString(R.string.select_semester)).append(": ").append(getSelectedText(binding.rgSemester)).append("\n");
+        sb.append(getString(R.string.select_section)).append(": ").append(getSelectedText(binding.rgSection)).append("\n");
+        sb.append(getString(R.string.select_specialization)).append(": ").append(getSelectedText(binding.rgSpecialization)).append("\n");
+        sb.append(getString(R.string.select_college_type)).append(": ").append(getSelectedText(binding.rgCollegeType)).append("\n");
+        sb.append(getString(R.string.mode_of_study)).append(": ").append(getSelectedText(binding.rgStudyMode)).append("\n");
+        sb.append(getString(R.string.hostel_required)).append(": ").append(getSelectedText(binding.rgHostel)).append("\n\n");
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String history = prefs.getString(HISTORY_KEY, "");
+        history = sb.toString() + history; 
+        prefs.edit().putString(HISTORY_KEY, history).apply();
+
+        Toast.makeText(this, getString(R.string.success_message), Toast.LENGTH_SHORT).show();
+    }
+
+    private void loadHistory() {
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        String history = prefs.getString(HISTORY_KEY, "No history found.");
+        binding.tvHistory.setText(history);
+    }
+
+    private void clearHistory() {
+        getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().remove(HISTORY_KEY).apply();
+        loadHistory();
+        Toast.makeText(this, "History Cleared", Toast.LENGTH_SHORT).show();
+    }
+
+    private void resetForm() {
+        binding.etName.setText("");
+        binding.rgCity.clearCheck();
+        binding.rgCourse.clearCheck();
+        binding.rgBranch.clearCheck();
+        binding.rgYear.clearCheck();
+        binding.rgSemester.clearCheck();
+        binding.rgSection.clearCheck();
+        binding.rgSpecialization.clearCheck();
+        binding.rgCollegeType.clearCheck();
+        binding.rgStudyMode.clearCheck();
+        binding.rgHostel.clearCheck();
+        currentStep = 0;
+        updateUI();
+    }
+
+    private String getSelectedText(RadioGroup radioGroup) {
+        int selectedId = radioGroup.getCheckedRadioButtonId();
+        if (selectedId != -1) {
+            RadioButton selectedRadioButton = findViewById(selectedId);
+            return selectedRadioButton.getText().toString();
+        }
+        return "Not Selected";
+    }
+}
