@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_bg"
+    tools:context=".MainActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:title="@string/app_name"
+            app:titleTextColor="@android:color/white" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/navigationLayout"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- 0. Name Input -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/enter_name" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            app:boxBackgroundMode="outline"
+                            app:boxCornerRadiusBottomEnd="12dp"
+                            app:boxCornerRadiusBottomStart="12dp"
+                            app:boxCornerRadiusTopEnd="12dp"
+                            app:boxCornerRadiusTopStart="12dp">
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/name_hint"
+                                android:inputType="textPersonName" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 1. City Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_city" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgCity" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbJaipur" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/jaipur" />
+                            <RadioButton android:id="@+id/rbUdaipur" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/udaipur" />
+                            <RadioButton android:id="@+id/rbKota" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/kota" />
+                            <RadioButton android:id="@+id/rbDelhi" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/delhi" />
+                            <RadioButton android:id="@+id/rbMumbai" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mumbai" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 2. Course Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCourse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_course" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgCourse" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbBTech" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/btech" />
+                            <RadioButton android:id="@+id/rbBCA" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/bca" />
+                            <RadioButton android:id="@+id/rbBBA" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/bba" />
+                            <RadioButton android:id="@+id/rbMBA" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mba" />
+                            <RadioButton android:id="@+id/rbMTech" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mtech" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 3. Branch Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardBranch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_branch" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgBranch" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbCS" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/computer_science" />
+                            <RadioButton android:id="@+id/rbMech" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/mechanical" />
+                            <RadioButton android:id="@+id/rbCivil" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/civil" />
+                            <RadioButton android:id="@+id/rbElec" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/electrical" />
+                            <RadioButton android:id="@+id/rbElectronics" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/electronics" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 4. Year Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardYear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_year" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgYear" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbYear1" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/year_1" />
+                            <RadioButton android:id="@+id/rbYear2" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/year_2" />
+                            <RadioButton android:id="@+id/rbYear3" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/year_3" />
+                            <RadioButton android:id="@+id/rbYear4" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/year_4" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 5. Semester Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSemester"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_semester" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgSemester" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbSem1" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_1" />
+                            <RadioButton android:id="@+id/rbSem2" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_2" />
+                            <RadioButton android:id="@+id/rbSem3" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_3" />
+                            <RadioButton android:id="@+id/rbSem4" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_4" />
+                            <RadioButton android:id="@+id/rbSem5" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_5" />
+                            <RadioButton android:id="@+id/rbSem6" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_6" />
+                            <RadioButton android:id="@+id/rbSem7" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_7" />
+                            <RadioButton android:id="@+id/rbSem8" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sem_8" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 6. Section Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSection"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_section" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgSection" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbSecA" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sec_a" />
+                            <RadioButton android:id="@+id/rbSecB" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sec_b" />
+                            <RadioButton android:id="@+id/rbSecC" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sec_c" />
+                            <RadioButton android:id="@+id/rbSecD" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/sec_d" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 7. Specialization Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardSpecialization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_specialization" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgSpecialization" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbAI" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/ai" />
+                            <RadioButton android:id="@+id/rbDS" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/data_science" />
+                            <RadioButton android:id="@+id/rbCyber" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/cyber_security" />
+                            <RadioButton android:id="@+id/rbIoT" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/iot" />
+                            <RadioButton android:id="@+id/rbSoftEng" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/software_engineering" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 8. College Type Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCollegeType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/select_college_type" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgCollegeType" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbGovt" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/government" />
+                            <RadioButton android:id="@+id/rbPrivate" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/private_college" />
+                            <RadioButton android:id="@+id/rbAuto" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/autonomous" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 9. Mode of Study Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardStudyMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/mode_of_study" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgStudyMode" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbRegular" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/regular" />
+                            <RadioButton android:id="@+id/rbDistance" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/distance" />
+                            <RadioButton android:id="@+id/rbOnline" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/online" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- 10. Hostel Selection -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardHostel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/hostel_required" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" />
+                        <RadioGroup android:id="@+id/rgHostel" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp">
+                            <RadioButton android:id="@+id/rbHostelYes" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/yes" />
+                            <RadioButton android:id="@+id/rbHostelNo" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/no" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- History Page -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/all_submissions" android:textAppearance="?attr/textAppearanceHeadline6" android:textStyle="bold" android:textColor="?attr/colorPrimary"/>
+                        <TextView android:id="@+id/tvHistory" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp" android:textAppearance="?attr/textAppearanceBody2" />
+                        <com.google.android.material.button.MaterialButton android:id="@+id/btnClearHistory" style="@style/Widget.Material3.Button.TextButton" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/clear_history" android:layout_gravity="end" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Bottom Navigation -->
+        <LinearLayout
+            android:id="@+id/navigationLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="?android:attr/windowBackground"
+            android:elevation="8dp"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPrevious"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/previous"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tvProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="1 / 11"
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnNext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/next" />
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/navigationLayout"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:text="@string/designed_by"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?attr/colorPrimary"
+            android:textStyle="bold|italic" />
+
+    </RelativeLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
